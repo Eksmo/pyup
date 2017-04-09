@@ -38,10 +38,14 @@ class Update(dict):
 
     @classmethod
     def get_commit_message(cls, requirement):
+        changelog_url = 'https://pyup.io/changelogs/{}/#{}'.format(
+                requirement.key,
+                requirement.latest_version_within_specs)
         if requirement.is_pinned:
-            return "Update {} from {} to {}".format(
+            return "Update {} from {} to {}\n\n{}".format(
                 requirement.key, requirement.version,
-                requirement.latest_version_within_specs
+                requirement.latest_version_within_specs,
+                changelog_url
             )
         return "Pin {} to latest version {}".format(
             requirement.key,
