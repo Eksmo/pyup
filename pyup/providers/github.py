@@ -145,8 +145,14 @@ class Provider(object):
         # hardware with Gigabit NICs (probably because they do some async stuff).
         # If we encounter an error, the loop waits for 1/2/3 seconds before trying again.
         # If the loop reaches the 4th iteration, we give up and raise the error.
-        if not path.startswith("/"):
-            path = "/" + path
+
+        # hotfix so that path doesnt start with slash
+        # ERROR:pyup.providers.github:Unable to create commit on Repository(full_name
+        # ="MyBook/mybook") for path /requirements/base.tx
+        # github.GithubException.GithubException: 422 {'message': 'path cannot start with a slash'}
+
+        # if not path.startswith("/"):
+        #     path = "/" + path
 
         # integrations don't support committer data being set. Add this as extra kwarg
         # if we're not dealing with an integration token
